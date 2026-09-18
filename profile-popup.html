@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: white;
+      background-color: #0b2468;
+      font-family: Arial, sans-serif;
+    }
+
+    .profile-content {
+      padding: 25px;
+    }
+
+    .profile-row {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 12px;
+    }
+
+    .profile-row img {
+      width: 30px;
+      height: 30px;
+    }
+
+    .profile-name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .profile-email {
+      font-size: 16px;
+      overflow-wrap: anywhere;
+    }
+
+    .profile-divider {
+      height: 1px;
+      margin: 22px 0;
+      border: none;
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .logout-button {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      width: 100%;
+      padding: 5px 0;
+      border: none;
+
+      color: white;
+      background-color: transparent;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .logout-button img {
+      width: 30px;
+      height: 30px;
+    }
+
+    .logout-button:hover {
+      color: #ffc800;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="profile-content">
+
+    <div class="profile-row">
+      <img src="image/profile.svg" alt="Profile" />
+      <span class="profile-name">Rania Mikhayla Putri</span>
+    </div>
+
+    <div class="profile-row">
+      <img src="image/email.svg" alt="Email" />
+      <span class="profile-email">owner@movieflix.com</span>
+    </div>
+
+    <hr class="profile-divider" />
+
+    <button
+  type="button"
+  class="logout-button"
+  onclick="logout()">
+      <img src="image/logout.svg" alt="" />
+      <span>Log Out</span>
+    </button>
+
+  </div>
+
+  <script>
+  function logout() {
+    window.top.location.href = "login.html";
+  }
+</script>
+</body>
+</html>
