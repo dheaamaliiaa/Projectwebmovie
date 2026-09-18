@@ -244,6 +244,116 @@
       object-fit: contain;
     }
 
+    /* ----MOVIE DETAIL POPUP---- */
+.movie-poster {
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.movie-poster:hover {
+  transform: scale(1.05);
+}
+
+.detail-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.detail-modal.show {
+  display: flex;
+}
+
+.detail-card {
+  position: relative;
+  display: flex;
+  gap: 25px;
+  width: 650px;
+  max-width: 90%;
+  padding: 30px;
+  border-radius: 15px;
+  background-color: #0b2468;
+  color: white;
+}
+
+.detail-card img {
+  width: 200px;
+  height: 290px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.detail-information {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-information label {
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.detail-information input,
+.detail-information textarea {
+  padding: 10px;
+  border: 1px solid #596da5;
+  border-radius: 6px;
+  background-color: #233c7d;
+  color: white;
+  font-family: inherit;
+}
+
+.detail-information input:disabled,
+.detail-information textarea:disabled {
+  border-color: transparent;
+  opacity: 1;
+}
+
+.detail-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.detail-buttons button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+#editDetail {
+  background-color: burlywood;
+}
+
+#saveDetail {
+  background-color: #ffc800;
+}
+
+#saveDetail:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.close-detail {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 35px;
+  cursor: pointer;
+}
+
     /* ----ADD MOVIE POPUP---- */
     .popup-overlay {
       position: fixed;
@@ -310,6 +420,44 @@
       }
     }
 
+    .profile-wrapper {
+  position: relative;
+}
+
+.profile-button {
+  display: flex;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.profile-popup {
+  position: absolute;
+  top: calc(100% + 15px);
+  right: 0;
+  z-index: 1000;
+
+  display: none;
+  width: 370px;
+  height: 230px;
+
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  background-color: #0b2468;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.profile-popup.show {
+  display: block;
+}
+
+.profile-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
    
   </style>
 </head>
@@ -341,9 +489,25 @@
         <img src="image/notif.svg" alt="Notification" />
       </a>
 
-      <a href="#">
-        <img src="image/profile.svg" alt="Profile" />
-      </a>
+      <div class="profile-wrapper">
+
+  <button
+    type="button"
+    id="profileButton"
+    class="profile-button"
+  >
+    <img src="image/profile.svg" alt="Profile" />
+  </button>
+
+  <div id="profilePopup" class="profile-popup">
+    <iframe
+      src="profile-popup.html"
+      class="profile-frame"
+      title="User Profile"
+    ></iframe>
+  </div>
+
+</div>
 
     </div>
 
@@ -397,16 +561,73 @@
 
         <div class="movie-list" id="trendingList">
 
-          <img src="image/avatar2.jpg" alt="Avatar" />
-          <img src="image/7ponakan.jpg" alt="1 Kakak 7 Ponakan" />
-          <img src="image/andaiibu.jpg" alt="Andai Ibu" />
-          <img src="image/kangmak.jpg" alt="Kang Mak" />
-          <img src="image/nawilla.jpg" alt="Na Willa" />
-          <img src="image/bilaesok.jpeg" alt="Bila Esok Ibu Tiada" />
-          <img src="image/alas roban.jpg" alt="Alas Roban" />
-          <img src="image/titip bunda disurga.jpg" alt="Titip Bunda diSurga" />
-          <img src="image/senin harga naik.jpg" alt="Senin Harga Naik" />
-          <img src="image/ayah ini arahnya kemana ya.jpg" alt="Ayah ini arahnya kemana ya?" />
+          <img src="image/avatar2.jpg" 
+          alt="Avatar"
+          class="movie-poster"
+          data-title="Avatar: The Way of Water"
+          data-popularity="4.8"
+          data-overview="Experience the epic adventure on Pandora. Explore a breathtaking world unlike any other." />
+
+          <img src="image/7ponakan.jpg" 
+          alt="1 Kakak 7 Ponakan"
+          class="movie-poster"
+          data-title="1 Kakak 7 Ponakan"
+          data-popularity="4.9"
+          data-overview="Setelah kehilangan kedua orang tuanya, seorang kakak harus mengorbankan impiannya demi merawat tujuh keponakannya. Kisah hangat tentang keluarga, tanggung jawab, dan perjuangan menghadapi berbagai tantangan hidup."/>
+
+          <img src="image/andaiibu.jpg" 
+          alt="Andai Ibu" 
+          class="movie-poster"
+          data-title="Andai Ibu Tidak Menikah dengan Ayah"
+          data-popularity="4.7"
+          data-overview="Setelah menemukan buku harian lama milik ibunya, seorang anak mulai mempertanyakan pilihan dan pengorbanan sang ibu dalam pernikahannya. Sebuah kisah keluarga tentang luka, cinta, dan rahasia masa lalu."/>
+
+          <img src="image/kangmak.jpg" 
+          alt="Kang Mak" 
+          class="movie-poster"
+          data-title="Kang Mak (from Pee Mak)"
+          data-popularity="4.6"
+          data-overview="Sepulang dari medan perang, Mak kembali kepada istrinya, Sari. Namun, teman-temannya mulai mencurigai bahwa Sari sebenarnya telah meninggal dan kini hidup sebagai hantu. Kisah horor komedi tentang cinta, persahabatan, dan kesetiaan."/>
+
+          <img src="image/nawilla.jpg" 
+          alt="Na Willa"
+          class="movie-poster"
+          data-title="Na Willa"
+          data-popularity="4.7"
+          data-overview="Willa, seorang anak perempuan yang ceria dan penuh rasa ingin tahu, menjalani berbagai petualangan sederhana bersama keluarga dan teman-temannya. Kisah hangat tentang masa kecil, persahabatan, dan keberanian memahami dunia."/>
+
+          <img src="image/bilaesok.jpeg" 
+          alt="Bila Esok Ibu Tiada"
+          class="movie-poster"
+          data-title="Bila Esok Ibu Tiada"
+          data-popularity="4.8"
+          data-overview="Rahmi berusaha menjaga keharmonisan keempat anaknya setelah kepergian sang suami. Namun, kesibukan dan konflik membuat hubungan mereka semakin renggang hingga sebuah kehilangan menyadarkan mereka akan pentingnya keluarga." />
+
+          <img src="image/alas roban.jpg" 
+          alt="Alas Roban" 
+          class="movie-poster"
+          data-title="Alas Roban"
+          data-popularity="4.7"
+          data-overview="Seorang ibu dan anaknya mengalami berbagai kejadian mengerikan ketika melintasi kawasan Alas Roban. Teror dari masa lalu perlahan terungkap dan mengancam keselamatan mereka dalam perjalanan penuh misteri."/>
+
+          <img src="image/titip bunda disurga.jpg" 
+          alt="Titip Bunda diSurga"
+          class="movie-poster"
+          data-title="Titip Bunda di Surga-Mu"
+          data-popularity="4.8"
+          data-overview="Kisah sebuah keluarga yang menghadapi ujian berat ketika kondisi sang ibu semakin memburuk. Di tengah penyesalan dan konflik, anak-anaknya belajar memahami arti kasih sayang, pengorbanan, serta pentingnya keluarga." />
+
+          <img src="image/senin harga naik.jpg" alt="Senin Harga Naik"
+          class="movie-poster"
+          data-title="Senin Harga Naik"
+          data-popularity="4.7"
+          data-overview="Sebuah keluarga berjuang menghadapi berbagai masalah kehidupan dan tekanan ekonomi yang terus meningkat. Di tengah perbedaan dan konflik, mereka berusaha mempertahankan kebersamaan serta menemukan kembali arti rumah dan keluarga." />
+
+          <img src="image/ayah ini arahnya kemana ya.jpg" alt="Ayah ini arahnya kemana ya?"
+          class="movie-poster"
+          data-title="Ayah, Ini Arahnya ke Mana, Ya?"
+          data-popularity="4.6"
+          data-overview="Seorang ayah dan anak melakukan perjalanan yang membawa mereka menghadapi berbagai persoalan keluarga. Sepanjang perjalanan, keduanya perlahan belajar memahami satu sama lain serta menemukan kembali arti cinta, kehilangan, dan kebersamaan." />
 
         </div>
 
@@ -617,7 +838,46 @@
     </div>
   </div>
 
-  <script>
+<!-- MOVIE DETAIL POPUP -->
+<div id="detailModal" class="detail-modal">
+  <div class="detail-card">
+    <button
+      type="button"
+      id="closeDetail"
+      class="close-detail"
+    >
+      &times;
+    </button>
+
+    <img id="detailImage" src="" alt="Movie poster" />
+
+    <div class="detail-information">
+      <label for="detailTitle">Title</label>
+      <input id="detailTitle" type="text" disabled />
+
+      <label for="detailPopularity">Popularity</label>
+      <input
+        id="detailPopularity"
+        type="number"
+        min="0"
+        max="10"
+        step="0.1"
+        disabled
+      />
+
+      <label for="detailOverview">Overview</label>
+      <textarea id="detailOverview" rows="5" disabled></textarea>
+
+      <div class="detail-buttons">
+        <button type="button" id="editDetail">Edit</button>
+        <button type="button" id="saveDetail" disabled>Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
     function geserKiri(idList) {
       const movieList = document.getElementById(idList);
 
@@ -650,11 +910,119 @@
       document.body.style.overflow = "";
     }
 
+    const semuaPoster = document.querySelectorAll(".movie-poster");
+    const detailModal = document.getElementById("detailModal");
+    const detailImage = document.getElementById("detailImage");
+    const detailTitle = document.getElementById("detailTitle");
+    const detailPopularity = document.getElementById("detailPopularity");
+    const detailOverview = document.getElementById("detailOverview");
+    const closeDetail = document.getElementById("closeDetail");
+    const editDetail = document.getElementById("editDetail");
+    const saveDetail = document.getElementById("saveDetail");
+
+    let posterAktif = null;
+
+    function aturModeEdit(sedangEdit) {
+      detailTitle.disabled = !sedangEdit;
+      detailPopularity.disabled = !sedangEdit;
+      detailOverview.disabled = !sedangEdit;
+      editDetail.disabled = sedangEdit;
+      saveDetail.disabled = !sedangEdit;
+    }
+
+    for (let i = 0; i < semuaPoster.length; i++) {
+      const kunciPenyimpanan = "movie-" + semuaPoster[i].getAttribute("src");
+      const dataTersimpan = localStorage.getItem(kunciPenyimpanan);
+
+      if (dataTersimpan !== null) {
+        const dataFilm = JSON.parse(dataTersimpan);
+        semuaPoster[i].dataset.title = dataFilm.title;
+        semuaPoster[i].dataset.popularity = dataFilm.popularity;
+        semuaPoster[i].dataset.overview = dataFilm.overview;
+        semuaPoster[i].alt = dataFilm.title;
+      }
+
+      semuaPoster[i].addEventListener("click", function () {
+        posterAktif = semuaPoster[i];
+
+        detailImage.src = posterAktif.src;
+        detailTitle.value = posterAktif.dataset.title;
+        detailPopularity.value = posterAktif.dataset.popularity;
+        detailOverview.value = posterAktif.dataset.overview;
+
+        aturModeEdit(false);
+        detailModal.classList.add("show");
+        document.body.style.overflow = "hidden";
+      });
+    }
+
+    editDetail.addEventListener("click", function () {
+      aturModeEdit(true);
+      detailTitle.focus();
+    });
+
+    saveDetail.addEventListener("click", function () {
+      if (posterAktif === null) {
+        return;
+      }
+
+      const dataFilm = {
+        title: detailTitle.value,
+        popularity: detailPopularity.value,
+        overview: detailOverview.value
+      };
+
+      posterAktif.dataset.title = dataFilm.title;
+      posterAktif.dataset.popularity = dataFilm.popularity;
+      posterAktif.dataset.overview = dataFilm.overview;
+      posterAktif.alt = dataFilm.title;
+
+      const kunciPenyimpanan = "movie-" + posterAktif.getAttribute("src");
+      localStorage.setItem(kunciPenyimpanan, JSON.stringify(dataFilm));
+
+      aturModeEdit(false);
+      alert("Data film berhasil diperbarui");
+    });
+
+    function tutupDetailFilm() {
+      detailModal.classList.remove("show");
+      document.body.style.overflow = "";
+      posterAktif = null;
+      aturModeEdit(false);
+    }
+
+    closeDetail.addEventListener("click", function () {
+      tutupDetailFilm();
+    });
+
+    detailModal.addEventListener("click", function (event) {
+      if (event.target === detailModal) {
+        tutupDetailFilm();
+      }
+    });
+
     document.addEventListener("keydown", function (event) {
       if (event.key === "Escape") {
         closePopup();
+        tutupDetailFilm();
       }
     });
+
+    const profileButton = document.getElementById("profileButton");
+const profilePopup = document.getElementById("profilePopup");
+
+profileButton.addEventListener("click", function (event) {
+  event.stopPropagation();
+  profilePopup.classList.toggle("show");
+});
+
+profilePopup.addEventListener("click", function (event) {
+  event.stopPropagation();
+});
+
+document.addEventListener("click", function () {
+  profilePopup.classList.remove("show");
+});
   </script>
 
 </body>
